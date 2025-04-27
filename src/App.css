@@ -1,3 +1,36 @@
+/* Styles globaux */
+:root {
+    --primary-color: #3498db;
+    --secondary-color: #2ecc71;
+    --accent-color: #9b59b6;
+    --dark-color: #34495e;
+    --light-color: #ecf0f1;
+    --danger-color: #e74c3c;
+    --text-color: #2c3e50;
+    --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: var(--light-color);
+    color: var(--text-color);
+    line-height: 1.6;
+    min-height: 100vh;
+}
+
+/* Styles pour les routes */
+.route-container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
 .App {
   text-align: center;
 }

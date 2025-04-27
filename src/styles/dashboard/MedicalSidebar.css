@@ -1,0 +1,56 @@
+/* Styles personnalisés pour le sidebar médical */
+
+/* Style de base pour les liens du sidebar */
+.sidebar-nav-link {
+  background-color: transparent !important;
+  color: white !important;
+}
+
+/* Style pour les éléments survolés ou actifs */
+.sidebar-nav-link:hover,
+.sidebar-nav-link.active {
+  background-color: rgba(52, 152, 219, 0.3) !important;
+  color: white !important;
+}
+
+/* Assurer que les boutons dans les liens respectent la même coloration */
+.sidebar-nav-link button {
+  background-color: transparent !important;
+  color: white !important;
+}
+
+/* Style du sidebar */
+.sidebar {
+  background-color: var(--dark-color) !important;
+}
+
+/* Style pour le toggle button */
+.toggle-sidebar {
+  background-color: var(--dark-color) !important;
+}
+
+/* Assurer que le fond reste transparent même en mode collapsed */
+.sidebar-collapsed .sidebar-nav-link {
+  background-color: transparent !important;
+}
+
+.sidebar-collapsed .sidebar-nav-link:hover,
+.sidebar-collapsed .sidebar-nav-link.active {
+  background-color: rgba(52, 152, 219, 0.3) !important;
+}
+
+/* Assurer que les options gardent les bonnes couleurs sur mobile */
+@media (max-width: 768px) {
+  .sidebar-nav-link,
+  .sidebar-collapsed .sidebar-nav-link {
+    background-color: transparent !important;
+    color: white !important;
+  }
+
+  .sidebar-nav-link:hover,
+  .sidebar-nav-link.active,
+  .sidebar-collapsed .sidebar-nav-link:hover,
+  .sidebar-collapsed .sidebar-nav-link.active {
+    background-color: rgba(52, 152, 219, 0.3) !important;
+  }
+} 

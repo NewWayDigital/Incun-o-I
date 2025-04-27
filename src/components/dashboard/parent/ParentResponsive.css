@@ -1,0 +1,274 @@
+"/* Styles responsifs pour le dashboard parent */" 
+
+/* Styles de base pour tous les écrans */
+.dashboard {
+  display: flex;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+.mobile-menu-toggle {
+  display: none;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 2000;
+  background-color: var(--primary-color);
+  color: white;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: none;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  font-size: 18px;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Force l'affichage complet sur tous les écrans */
+.main-content {
+  display: block !important;
+  width: 100% !important;
+  overflow: visible !important;
+}
+
+.card {
+  display: block !important;
+  width: 100% !important;
+  margin-bottom: 20px !important;
+}
+
+/* Styles tablette et mobile */
+@media (max-width: 992px) {
+  .dashboard-row {
+    display: block !important;
+    width: 100% !important;
+  }
+  
+  .card-span-8, 
+  .card-span-4, 
+  .card-span-6, 
+  .card-span-12 {
+    width: 100% !important;
+    grid-column: auto !important;
+  }
+  
+  .vital-signs {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 15px !important;
+  }
+
+  .gallery-grid {
+    grid-template-columns: repeat(3, 1fr) !important;
+  }
+}
+
+/* Styles spécifiques pour mobile */
+@media (max-width: 768px) {
+  /* Forcer l'affichage du bouton menu mobile */
+  .mobile-menu-toggle {
+    display: flex !important;
+  }
+  
+  /* Structure générale */
+  .dashboard {
+    flex-direction: column !important;
+  }
+  
+  /* Sidebar en mode mobile */
+  .sidebar {
+    width: 100% !important;
+    height: auto !important;
+    position: static !important;
+    min-height: 70px !important;
+    padding: 0 !important;
+    overflow-x: auto !important;
+    white-space: nowrap !important;
+  }
+  
+  /* Masquer certains éléments du sidebar en mode mobile */
+  .sidebar-brand,
+  .sidebar-footer,
+  .user-info {
+    display: none !important;
+  }
+  
+  /* Menu horizontal */
+  .sidebar-menu {
+    display: flex !important;
+    flex-direction: row !important;
+    padding: 10px !important;
+    justify-content: space-between !important;
+    width: 100% !important;
+    overflow-x: auto !important;
+  }
+  
+  .sidebar-menu-item {
+    flex: 0 0 auto !important;
+    margin: 0 5px !important;
+  }
+  
+  .sidebar-menu-link {
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: 70px !important;
+    width: 70px !important;
+    border-radius: 10px !important;
+    font-size: 12px !important;
+    padding: 5px !important;
+  }
+  
+  .sidebar-menu-icon {
+    margin-right: 0 !important;
+    margin-bottom: 5px !important;
+    font-size: 18px !important;
+  }
+  
+  .sidebar-menu-text {
+    font-size: 10px !important;
+    text-align: center !important;
+  }
+  
+  /* Adaptation du contenu principal */
+  .main-content {
+    margin-left: 0 !important;
+    padding: 15px !important;
+  }
+  
+  .dashboard-header {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 10px !important;
+  }
+  
+  .page-title {
+    font-size: 24px !important;
+  }
+  
+  /* Adaptation des cartes */
+  .vital-signs {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 15px !important;
+  }
+  
+  .gallery-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+  
+  .update-item {
+    flex-direction: column !important;
+  }
+  
+  .update-time {
+    margin-bottom: 8px !important;
+  }
+}
+
+/* Spécifique très petits écrans */
+@media (max-width: 576px) {
+  .sidebar-menu-link {
+    width: 60px !important;
+    height: 60px !important;
+    font-size: 10px !important;
+  }
+  
+  .gallery-grid {
+    grid-template-columns: 1fr !important;
+  }
+  
+  .video-controls {
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+  }
+  
+  .card-header {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+  }
+  
+  .card-title {
+    margin-bottom: 8px !important;
+  }
+}
+
+/* État caché du sidebar */
+.sidebar-hidden {
+  display: none !important;
+}
+
+/* Menu utilisateur flottant */
+.floating-user {
+  position: fixed !important;
+  bottom: 20px !important;
+  left: 20px !important;
+  background-color: var(--dark-color) !important;
+  color: white !important;
+  padding: 10px 15px !important;
+  border-radius: 30px !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  z-index: 1999 !important;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2) !important;
+}
+
+/* Style spécifique pour le sidebar en mode mobile */
+.sidebar-mobile {
+  position: relative !important;
+  width: 100% !important;
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: 80px !important;
+  overflow-x: auto !important;
+  overflow-y: hidden !important;
+  display: flex !important;
+  flex-direction: row !important;
+  justify-content: center !important;
+  padding: 0 !important;
+  background-color: var(--dark-color) !important;
+}
+
+.sidebar-mobile .sidebar-brand,
+.sidebar-mobile .sidebar-footer {
+  display: none !important;
+}
+
+.sidebar-mobile .sidebar-menu {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  overflow-x: auto !important;
+  width: 100% !important;
+  padding: 10px 0 !important;
+  margin: 0 !important;
+  justify-content: space-around !important;
+}
+
+.sidebar-mobile .sidebar-menu-item {
+  flex: 0 0 auto !important;
+  margin: 0 5px !important;
+}
+
+.sidebar-mobile .sidebar-menu-link {
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+  border-radius: 10px !important;
+  padding: 10px !important;
+  width: 70px !important;
+  height: 60px !important;
+}
+
+.sidebar-mobile .sidebar-menu-icon {
+  margin: 0 0 5px 0 !important;
+  font-size: 18px !important;
+}
+
+.sidebar-mobile .sidebar-menu-text {
+  font-size: 10px !important;
+  margin: 0 !important;
+} 
