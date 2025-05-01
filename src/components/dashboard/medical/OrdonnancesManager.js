@@ -337,44 +337,48 @@ function OrdonnancesManager() {
   };
 
   return (
-    <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '20px' }}>
-      {/* Patient selector */}
-      <div style={{ marginBottom: '20px' }}>
-        <label htmlFor="patient-select" style={{ 
-          display: 'block', 
-          marginBottom: '8px', 
-          fontWeight: 'bold' 
-        }}>
-          Sélectionner un patient:
-        </label>
-        <select 
-          id="patient-select"
-          value={selectedPatientId || ""}
-          onChange={handlePatientChange}
-          style={{
-            width: '100%',
-            padding: '10px',
-            borderRadius: '4px',
-            border: '1px solid #ddd',
-            backgroundColor: 'white'
-          }}
-          disabled={loadingPatients || viewMode !== 'list'}
-        >
-          <option value="">-- Sélectionner un patient --</option>
-          {patients.map(patient => (
-            <option key={patient.id} value={patient.id}>
-              {patient.nom || 'Patient inconnu'}
-            </option>
-          ))}
-        </select>
-        {loadingPatients && (
-          <p style={{ margin: '5px 0 0', fontSize: '14px', color: '#666' }}>
-            Chargement des patients...
-          </p>
-        )}
+    <div className="main-content" id="main-content">
+      <div className="topbar">
+        <h1 className="page-title">Gestion des ordonnances</h1>
       </div>
-
-      {renderContent()}
+      <div className="dashboard-content">
+        {/* Patient selector */}
+        <div style={{ marginBottom: '20px' }}>
+          <label htmlFor="patient-select" style={{ 
+            display: 'block', 
+            marginBottom: '8px', 
+            fontWeight: 'bold' 
+          }}>
+            Sélectionner un patient:
+          </label>
+          <select 
+            id="patient-select"
+            value={selectedPatientId || ""}
+            onChange={handlePatientChange}
+            style={{
+              width: '100%',
+              padding: '10px',
+              borderRadius: '4px',
+              border: '1px solid #ddd',
+              backgroundColor: 'white'
+            }}
+            disabled={loadingPatients || viewMode !== 'list'}
+          >
+            <option value="">-- Sélectionner un patient --</option>
+            {patients.map(patient => (
+              <option key={patient.id} value={patient.id}>
+                {patient.nom || 'Patient inconnu'}
+              </option>
+            ))}
+          </select>
+          {loadingPatients && (
+            <p style={{ margin: '5px 0 0', fontSize: '14px', color: '#666' }}>
+              Chargement des patients...
+            </p>
+          )}
+        </div>
+        {renderContent()}
+      </div>
     </div>
   );
 }

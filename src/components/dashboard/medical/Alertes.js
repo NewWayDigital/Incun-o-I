@@ -242,90 +242,91 @@ function Alertes() {
   };
 
   return (
-    <div className="dashboard-content">
-      <h2 className="section-title">Liste des alertes</h2>
-      
-      <div className="filter-controls">
-        <div className="filter-buttons">
-          <button 
-            className={`filter-btn ${filter === 'all' ? 'active' : ''}`} 
-            onClick={() => handleFilterChange('all')}
-          >
-            Toutes
-          </button>
-          <button 
-            className={`filter-btn ${filter === 'critical' ? 'active' : ''}`} 
-            onClick={() => handleFilterChange('critical')}
-          >
-            Critiques
-          </button>
-          <button 
-            className={`filter-btn ${filter === 'warning' ? 'active' : ''}`} 
-            onClick={() => handleFilterChange('warning')}
-          >
-            Avertissements
-          </button>
-          <button 
-            className={`filter-btn ${filter === 'info' ? 'active' : ''}`} 
-            onClick={() => handleFilterChange('info')}
-          >
-            Informations
-          </button>
-        </div>
-        <button className="btn btn-outline" onClick={fetchAlertes}>
-          <i className="fas fa-sync-alt"></i> Actualiser
-        </button>
+    <div className="main-content" id="main-content">
+      <div className="topbar">
+        <h1 className="page-title">Liste des alertes</h1>
       </div>
-      
-      {loading ? (
-        <div className="loading-container">
-          <div className="spinner"></div>
-          <p>Chargement des alertes...</p>
+      <div className="dashboard-content">
+        <div className="filter-controls">
+          <div className="filter-buttons">
+            <button 
+              className={`filter-btn ${filter === 'all' ? 'active' : ''}`} 
+              onClick={() => handleFilterChange('all')}
+            >
+              Toutes
+            </button>
+            <button 
+              className={`filter-btn ${filter === 'critical' ? 'active' : ''}`} 
+              onClick={() => handleFilterChange('critical')}
+            >
+              Critiques
+            </button>
+            <button 
+              className={`filter-btn ${filter === 'warning' ? 'active' : ''}`} 
+              onClick={() => handleFilterChange('warning')}
+            >
+              Avertissements
+            </button>
+            <button 
+              className={`filter-btn ${filter === 'info' ? 'active' : ''}`} 
+              onClick={() => handleFilterChange('info')}
+            >
+              Informations
+            </button>
+          </div>
+          <button className="btn btn-outline" onClick={fetchAlertes}>
+            <i className="fas fa-sync-alt"></i> Actualiser
+          </button>
         </div>
-      ) : (
-        <div className="alerts-list-container">
-          {filteredAlertes.length > 0 ? (
-            <div className="alerts-grid">
-              {filteredAlertes.map((alerte, index) => (
-                <div 
-                  key={index}
-                  className={`alert-card alert-${alerte.type}`}
-                  onClick={() => handleViewAlertDetails(alerte)}
-                >
-                  <div className="alert-card-header">
-                    <div className={`alert-icon alert-${alerte.type}`}>
-                      <i className={`fas ${
-                        alerte.type === 'critical' ? 'fa-exclamation-circle' : 
-                        alerte.type === 'warning' ? 'fa-exclamation-triangle' : 
-                        'fa-info-circle'
-                      }`}></i>
+        {loading ? (
+          <div className="loading-container">
+            <div className="spinner"></div>
+            <p>Chargement des alertes...</p>
+          </div>
+        ) : (
+          <div className="alerts-list-container">
+            {filteredAlertes.length > 0 ? (
+              <div className="alerts-grid">
+                {filteredAlertes.map((alerte, index) => (
+                  <div 
+                    key={index}
+                    className={`alert-card alert-${alerte.type}`}
+                    onClick={() => handleViewAlertDetails(alerte)}
+                  >
+                    <div className="alert-card-header">
+                      <div className={`alert-icon alert-${alerte.type}`}>
+                        <i className={`fas ${
+                          alerte.type === 'critical' ? 'fa-exclamation-circle' : 
+                          alerte.type === 'warning' ? 'fa-exclamation-triangle' : 
+                          'fa-info-circle'
+                        }`}></i>
+                      </div>
+                      <div className="alert-time">{alerte.time}</div>
                     </div>
-                    <div className="alert-time">{alerte.time}</div>
-                  </div>
-                  <h3 className="alert-title">{alerte.title}</h3>
-                  {alerte.incubator && (
-                    <div className="alert-incubator">
-                      <i className="fas fa-baby"></i> Incubateur {alerte.incubator}
+                    <h3 className="alert-title">{alerte.title}</h3>
+                    {alerte.incubator && (
+                      <div className="alert-incubator">
+                        <i className="fas fa-baby"></i> Incubateur {alerte.incubator}
+                      </div>
+                    )}
+                    <div className="alert-card-footer">
+                      <button className="btn btn-sm btn-outline-primary">
+                        <i className="fas fa-chevron-right"></i> Détails
+                      </button>
                     </div>
-                  )}
-                  <div className="alert-card-footer">
-                    <button className="btn btn-sm btn-outline-primary">
-                      <i className="fas fa-chevron-right"></i> Détails
-                    </button>
                   </div>
-                </div>
-              ))}
-            </div>
-          ) : (
-            <div className="no-alerts">
-              <i className="fas fa-check-circle"></i>
-              <p>Aucune alerte {filter !== 'all' ? `de type "${filter}"` : ''} pour le moment</p>
-            </div>
-          )}
-        </div>
-      )}
-      
-      {showAlertDetails && renderAlertDetails()}
+                ))}
+              </div>
+            ) : (
+              <div className="no-alerts">
+                <i className="fas fa-check-circle"></i>
+                <p>Aucune alerte {filter !== 'all' ? `de type "${filter}"` : ''} pour le moment</p>
+              </div>
+            )}
+          </div>
+        )}
+        {showAlertDetails && renderAlertDetails()}
+      </div>
     </div>
   );
 }

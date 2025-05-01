@@ -11,6 +11,7 @@ import IncubatorsList from './components/dashboard/medical/IncubatorsList';
 import OrdonnancesManager from './components/dashboard/medical/OrdonnancesManager';
 import Messagerie from './components/dashboard/medical/Messagerie';
 import Parametres from './components/dashboard/medical/Parametres';
+import MedicalLayout from './components/dashboard/medical/MedicalLayout';
 
 function App() {
   return (
@@ -26,12 +27,10 @@ function App() {
         {/* Routes du tableau de bord administrateur */}
         <Route path="/dashboard-admin" element={<AdminDashboard />} />
         
-        {/* Routes du tableau de bord médical */}
-        <Route path="/medical">
+        {/* Routes du tableau de bord médical avec layout */}
+        <Route path="/medical" element={<MedicalLayout />}>
           {/* Redirection par défaut vers le dashboard */}
           <Route index element={<Navigate to="/medical/dashboard" replace />} />
-          
-          {/* Composants du tableau de bord médical */}
           <Route path="dashboard" element={<MedicalDashboard />} />
           <Route path="alertes" element={<Alertes />} />
           <Route path="incubateurs" element={<IncubatorsList />} />

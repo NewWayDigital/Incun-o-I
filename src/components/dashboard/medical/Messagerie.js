@@ -144,122 +144,127 @@ function Messagerie() {
   };
   
   return (
-    <div className="dashboard-content">
-      <h2 className="section-title">Messagerie</h2>
-      
-      <div className="messagerie-container">
-        <div className="contacts-sidebar">
-          <div className="contacts-header">
-            <div className="search-container">
-              <i className="fas fa-search search-icon"></i>
-              <input 
-                type="text" 
-                placeholder="Rechercher..." 
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
+    <div className="main-content" id="main-content">
+      <div className="topbar">
+        <h1 className="page-title">Messagerie</h1>
+      </div>
+      <div className="dashboard-content">
+        <h2 className="section-title">Messagerie</h2>
+        
+        <div className="messagerie-container">
+          <div className="contacts-sidebar">
+            <div className="contacts-header">
+              <div className="search-container">
+                <i className="fas fa-search search-icon"></i>
+                <input 
+                  type="text" 
+                  placeholder="Rechercher..." 
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                />
+              </div>
+              <button className="btn btn-icon new-message-btn">
+                <i className="fas fa-edit"></i>
+              </button>
             </div>
-            <button className="btn btn-icon new-message-btn">
-              <i className="fas fa-edit"></i>
-            </button>
+            
+            <div className="contacts-list">
+              {filteredConversations.length > 0 ? (
+                filteredConversations.map((conv) => (
+                  <div 
+                    key={conv.id} 
+                    className={`contact-item ${selectedChat === conv.id ? 'active' : ''}`}
+                    onClick={() => setSelectedChat(conv.id)}
+                  >
+                    <div className="contact-avatar">
+                      {conv.contact.avatar}
+                    </div>
+                    <div className="contact-info">
+                      <div className="contact-name">{conv.contact.nom}</div>
+                      <div className="contact-role">{conv.contact.role}</div>
+                      <div className="last-message">{conv.lastMessage.text}</div>
+                    </div>
+                    <div className="contact-meta">
+                      <div className="message-time">{conv.lastMessage.time}</div>
+                      {conv.unread > 0 && (
+                        <div className="unread-badge">{conv.unread}</div>
+                      )}
+                    </div>
+                  </div>
+                ))
+              ) : (
+                <div className="no-contacts">
+                  <i className="fas fa-search"></i>
+                  <p>Aucun contact trouvé</p>
+                </div>
+              )}
+            </div>
           </div>
           
-          <div className="contacts-list">
-            {filteredConversations.length > 0 ? (
-              filteredConversations.map((conv) => (
-                <div 
-                  key={conv.id} 
-                  className={`contact-item ${selectedChat === conv.id ? 'active' : ''}`}
-                  onClick={() => setSelectedChat(conv.id)}
-                >
-                  <div className="contact-avatar">
-                    {conv.contact.avatar}
+          <div className="chat-container">
+            {currentChat ? (
+              <>
+                <div className="chat-header">
+                  <div className="chat-contact">
+                    <div className="contact-avatar">{currentChat.contact.avatar}</div>
+                    <div className="contact-info">
+                      <div className="contact-name">{currentChat.contact.nom}</div>
+                      <div className="contact-role">{currentChat.contact.role}</div>
+                    </div>
                   </div>
-                  <div className="contact-info">
-                    <div className="contact-name">{conv.contact.nom}</div>
-                    <div className="contact-role">{conv.contact.role}</div>
-                    <div className="last-message">{conv.lastMessage.text}</div>
-                  </div>
-                  <div className="contact-meta">
-                    <div className="message-time">{conv.lastMessage.time}</div>
-                    {conv.unread > 0 && (
-                      <div className="unread-badge">{conv.unread}</div>
-                    )}
+                  <div className="chat-actions">
+                    <button className="btn btn-icon" title="Appel vidéo">
+                      <i className="fas fa-video"></i>
+                    </button>
+                    <button className="btn btn-icon" title="Appel audio">
+                      <i className="fas fa-phone"></i>
+                    </button>
+                    <button className="btn btn-icon" title="Plus d'options">
+                      <i className="fas fa-ellipsis-v"></i>
+                    </button>
                   </div>
                 </div>
-              ))
+                
+                <div className="chat-messages">
+                  {currentChat.messages.map((msg) => (
+                    <div key={msg.id} className={`message ${msg.sender === 'me' ? 'sent' : 'received'}`}>
+                      <div className="message-content">
+                        <div className="message-text">{msg.text}</div>
+                        <div className="message-time">{msg.time}</div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                
+                <div className="chat-input">
+                  <button className="btn btn-icon" title="Joindre un fichier">
+                    <i className="fas fa-paperclip"></i>
+                  </button>
+                  <input 
+                    type="text" 
+                    placeholder="Écrivez votre message..." 
+                    value={messageText}
+                    onChange={(e) => setMessageText(e.target.value)}
+                    onKeyPress={(e) => {
+                      if (e.key === 'Enter') sendMessage();
+                    }}
+                  />
+                  <button 
+                    className="btn btn-icon send-btn" 
+                    title="Envoyer"
+                    onClick={sendMessage}
+                  >
+                    <i className="fas fa-paper-plane"></i>
+                  </button>
+                </div>
+              </>
             ) : (
-              <div className="no-contacts">
-                <i className="fas fa-search"></i>
-                <p>Aucun contact trouvé</p>
+              <div className="no-chat-selected">
+                <i className="fas fa-comments"></i>
+                <p>Sélectionnez une conversation pour commencer</p>
               </div>
             )}
           </div>
-        </div>
-        
-        <div className="chat-container">
-          {currentChat ? (
-            <>
-              <div className="chat-header">
-                <div className="chat-contact">
-                  <div className="contact-avatar">{currentChat.contact.avatar}</div>
-                  <div className="contact-info">
-                    <div className="contact-name">{currentChat.contact.nom}</div>
-                    <div className="contact-role">{currentChat.contact.role}</div>
-                  </div>
-                </div>
-                <div className="chat-actions">
-                  <button className="btn btn-icon" title="Appel vidéo">
-                    <i className="fas fa-video"></i>
-                  </button>
-                  <button className="btn btn-icon" title="Appel audio">
-                    <i className="fas fa-phone"></i>
-                  </button>
-                  <button className="btn btn-icon" title="Plus d'options">
-                    <i className="fas fa-ellipsis-v"></i>
-                  </button>
-                </div>
-              </div>
-              
-              <div className="chat-messages">
-                {currentChat.messages.map((msg) => (
-                  <div key={msg.id} className={`message ${msg.sender === 'me' ? 'sent' : 'received'}`}>
-                    <div className="message-content">
-                      <div className="message-text">{msg.text}</div>
-                      <div className="message-time">{msg.time}</div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-              
-              <div className="chat-input">
-                <button className="btn btn-icon" title="Joindre un fichier">
-                  <i className="fas fa-paperclip"></i>
-                </button>
-                <input 
-                  type="text" 
-                  placeholder="Écrivez votre message..." 
-                  value={messageText}
-                  onChange={(e) => setMessageText(e.target.value)}
-                  onKeyPress={(e) => {
-                    if (e.key === 'Enter') sendMessage();
-                  }}
-                />
-                <button 
-                  className="btn btn-icon send-btn" 
-                  title="Envoyer"
-                  onClick={sendMessage}
-                >
-                  <i className="fas fa-paper-plane"></i>
-                </button>
-              </div>
-            </>
-          ) : (
-            <div className="no-chat-selected">
-              <i className="fas fa-comments"></i>
-              <p>Sélectionnez une conversation pour commencer</p>
-            </div>
-          )}
         </div>
       </div>
     </div>

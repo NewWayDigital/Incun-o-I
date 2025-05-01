@@ -719,127 +719,128 @@ function Patient() {
   };
 
   return (
-    <div className="dashboard-content">
-      <h2 className="section-title">Gestion des patients</h2>
-
-      <div className="card">
-        {viewMode === 'default' ? (
-          <>
-            <div className="card-header">
-              <div className="tabs">
-                <button
-                  className={`tab-btn ${activeTab === 'liste' ? 'active' : ''}`}
-                  onClick={() => setActiveTab('liste')}
-                >
-                  <i className="fas fa-list"></i> Liste des patients
-                </button>
-                <button
-                  className={`tab-btn ${activeTab === 'ajouter' ? 'active' : ''}`}
-                  onClick={handleAddNewPatient}
-                >
-                  <i className="fas fa-plus"></i> Ajouter un patient
-                </button>
-              </div>
-
-              <div className="search-container">
-                <input
-                  type="text"
-                  placeholder="Rechercher un patient..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                />
-                <button className="search-btn">
-                  <i className="fas fa-search"></i>
-                </button>
-              </div>
-            </div>
-
-            <div className="card-body">
-              {activeTab === 'liste' ? (
-                <div className="patients-table-container">
-                  <table className="patients-table">
-                    <thead>
-                      <tr>
-                        <th>ID</th>
-                        <th>Nom</th>
-                        <th>Date de naissance</th>
-                        <th>Âge</th>
-                        <th>Sexe</th>
-                        <th>Poids/Taille</th>
-                        <th>Incubateur</th>
-                        <th>Statut</th>
-                        <th>Parent(s)</th>
-                        <th>Actions</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {filteredPatients.map((patient, index) => (
-                        <tr key={index} className={`status-${patient.status}`}>
-                          <td>P00{patient.id}</td>
-                          <td><strong>{patient.nom}</strong></td>
-                          <td>{patient.dateNaissance}</td>
-                          <td>{getPatientAge(patient.dateNaissance)}</td>
-                          <td>{patient.sexe}</td>
-                          <td>{patient.poids} / {patient.taille}</td>
-                          <td>
-                            <span className="incubator-badge">
-                              <i className="fas fa-baby-carriage"></i> {patient.incubateur}
-                            </span>
-                          </td>
-                          <td>
-                            <span className={`status-badge status-${patient.status}`}>
-                              <i className={`fas ${patient.status === 'stable' ? 'fa-check-circle' :
-                                  patient.status === 'warning' ? 'fa-exclamation-triangle' :
-                                    'fa-exclamation-circle'
-                                }`}></i>
-                              {patient.status === 'stable' ? 'Stable' :
-                                patient.status === 'warning' ? 'Attention' : 'Critique'}
-                            </span>
-                          </td>
-                          <td>{patient.parent}</td>
-                          <td>
-                            <div className="row-actions">
-                              <button
-                                className="action-btn view-btn small"
-                                title="Voir le dossier"
-                                onClick={() => handleViewPatientDetails(patient)}
-                              >
-                                <i className="fas fa-folder-open"></i>
-                              </button>
-                              <button className="action-btn history-btn small" title="Historique">
-                                <i className="fas fa-history"></i>
-                              </button>
-                              <button
-                                className="action-btn alert-btn small"
-                                title="Éditer"
-                                onClick={() => handleEditPatient(patient)}
-                              >
-                                <i className="fas fa-edit"></i>
-                              </button>
-                            </div>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-
-                  {filteredPatients.length === 0 && (
-                    <div className="no-results">
-                      <i className="fas fa-search"></i>
-                      <p>Aucun patient ne correspond à votre recherche.</p>
-                    </div>
-                  )}
+    <div className="main-content" id="main-content">
+      <div className="topbar">
+        <h1 className="page-title">Gestion des patients</h1>
+      </div>
+      <div className="dashboard-content">
+        <div className="card">
+          {viewMode === 'default' ? (
+            <>
+              <div className="card-header">
+                <div className="tabs">
+                  <button
+                    className={`tab-btn ${activeTab === 'liste' ? 'active' : ''}`}
+                    onClick={() => setActiveTab('liste')}
+                  >
+                    <i className="fas fa-list"></i> Liste des patients
+                  </button>
+                  <button
+                    className={`tab-btn ${activeTab === 'ajouter' ? 'active' : ''}`}
+                    onClick={handleAddNewPatient}
+                  >
+                    <i className="fas fa-plus"></i> Ajouter un patient
+                  </button>
                 </div>
-              ) : (
-                renderEditForm() // Utiliser le même formulaire pour l'ajout
-              )}
-            </div>
-          </>
-        ) : viewMode === 'detail' ? (
-          renderPatientDetails()
-        ) : (
-          renderEditForm()
-        )}
+                <div className="search-container">
+                  <input
+                    type="text"
+                    placeholder="Rechercher un patient..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                  />
+                  <button className="search-btn">
+                    <i className="fas fa-search"></i>
+                  </button>
+                </div>
+              </div>
+              <div className="card-body">
+                {activeTab === 'liste' ? (
+                  <div className="patients-table-container">
+                    <table className="patients-table">
+                      <thead>
+                        <tr>
+                          <th>ID</th>
+                          <th>Nom</th>
+                          <th>Date de naissance</th>
+                          <th>Âge</th>
+                          <th>Sexe</th>
+                          <th>Poids/Taille</th>
+                          <th>Incubateur</th>
+                          <th>Statut</th>
+                          <th>Parent(s)</th>
+                          <th>Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {filteredPatients.map((patient, index) => (
+                          <tr key={index} className={`status-${patient.status}`}>
+                            <td>P00{patient.id}</td>
+                            <td><strong>{patient.nom}</strong></td>
+                            <td>{patient.dateNaissance}</td>
+                            <td>{getPatientAge(patient.dateNaissance)}</td>
+                            <td>{patient.sexe}</td>
+                            <td>{patient.poids} / {patient.taille}</td>
+                            <td>
+                              <span className="incubator-badge">
+                                <i className="fas fa-baby-carriage"></i> {patient.incubateur}
+                              </span>
+                            </td>
+                            <td>
+                              <span className={`status-badge status-${patient.status}`}>
+                                <i className={`fas ${patient.status === 'stable' ? 'fa-check-circle' :
+                                    patient.status === 'warning' ? 'fa-exclamation-triangle' :
+                                      'fa-exclamation-circle'
+                                  }`}></i>
+                                {patient.status === 'stable' ? 'Stable' :
+                                  patient.status === 'warning' ? 'Attention' : 'Critique'}
+                              </span>
+                            </td>
+                            <td>{patient.parent}</td>
+                            <td>
+                              <div className="row-actions">
+                                <button
+                                  className="action-btn view-btn small"
+                                  title="Voir le dossier"
+                                  onClick={() => handleViewPatientDetails(patient)}
+                                >
+                                  <i className="fas fa-folder-open"></i>
+                                </button>
+                                <button className="action-btn history-btn small" title="Historique">
+                                  <i className="fas fa-history"></i>
+                                </button>
+                                <button
+                                  className="action-btn alert-btn small"
+                                  title="Éditer"
+                                  onClick={() => handleEditPatient(patient)}
+                                >
+                                  <i className="fas fa-edit"></i>
+                                </button>
+                              </div>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+
+                    {filteredPatients.length === 0 && (
+                      <div className="no-results">
+                        <i className="fas fa-search"></i>
+                        <p>Aucun patient ne correspond à votre recherche.</p>
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  renderEditForm() // Utiliser le même formulaire pour l'ajout
+                )}
+              </div>
+            </>
+          ) : viewMode === 'detail' ? (
+            renderPatientDetails()
+          ) : (
+            renderEditForm()
+          )}
+        </div>
       </div>
     </div>
   );

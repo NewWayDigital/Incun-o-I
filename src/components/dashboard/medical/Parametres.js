@@ -176,166 +176,169 @@ function Parametres() {
   const fullName = `${firstName} ${lastName}`;
   
   return (
-    <div className="dashboard-content">
-      <h2 className="section-title">Paramètres</h2>
-      
-      {loading ? (
-        <div className="loading-indicator">
-          <div className="spinner"></div>
-          <p>Chargement des informations utilisateur...</p>
-        </div>
-      ) : (
-        <div className="settings-container">
-          <div className="settings-content" style={{ width: '100%' }}>
-            <form className="settings-panel" onSubmit={handleSubmit}>
-              <h3 className="panel-title">Compte et profil</h3>
-              
-              <div className="panel-section">
-                <h4 className="section-title">Informations personnelles</h4>
+    <div className="main-content" id="main-content">
+      <div className="topbar">
+        <h1 className="page-title">Paramètres</h1>
+      </div>
+      <div className="dashboard-content">
+        {loading ? (
+          <div className="loading-indicator">
+            <div className="spinner"></div>
+            <p>Chargement des informations utilisateur...</p>
+          </div>
+        ) : (
+          <div className="settings-container">
+            <div className="settings-content" style={{ width: '100%' }}>
+              <form className="settings-panel" onSubmit={handleSubmit}>
+                <h3 className="panel-title">Compte et profil</h3>
                 
-                <div className="form-grid">
-                  <div className="form-group">
-                    <label>Prénom</label>
-                    <input 
-                      type="text" 
-                      value={firstName} 
-                      onChange={(e) => setFirstName(e.target.value)}
-                      required
-                    />
-                  </div>
+                <div className="panel-section">
+                  <h4 className="section-title">Informations personnelles</h4>
                   
-                  <div className="form-group">
-                    <label>Nom</label>
-                    <input 
-                      type="text" 
-                      value={lastName} 
-                      onChange={(e) => setLastName(e.target.value)}
-                      required
-                    />
-                  </div>
-                  
-                  <div className="form-group">
-                    <label>Email</label>
-                    <input 
-                      type="email" 
-                      value={email} 
-                      onChange={(e) => setEmail(e.target.value)}
-                      required
-                    />
-                  </div>
-                  
-                  <div className="form-group">
-                    <label>Téléphone</label>
-                    <input 
-                      type="tel" 
-                      value={numberPhone} 
-                      onChange={(e) => setNumberPhone(e.target.value)}
-                      required
-                    />
-                  </div>
-                  
-                  <div className="form-group">
-                    <label>Rôle</label>
-                    <div className="form-static-value">{role}</div>
+                  <div className="form-grid">
+                    <div className="form-group">
+                      <label>Prénom</label>
+                      <input 
+                        type="text" 
+                        value={firstName} 
+                        onChange={(e) => setFirstName(e.target.value)}
+                        required
+                      />
+                    </div>
+                    
+                    <div className="form-group">
+                      <label>Nom</label>
+                      <input 
+                        type="text" 
+                        value={lastName} 
+                        onChange={(e) => setLastName(e.target.value)}
+                        required
+                      />
+                    </div>
+                    
+                    <div className="form-group">
+                      <label>Email</label>
+                      <input 
+                        type="email" 
+                        value={email} 
+                        onChange={(e) => setEmail(e.target.value)}
+                        required
+                      />
+                    </div>
+                    
+                    <div className="form-group">
+                      <label>Téléphone</label>
+                      <input 
+                        type="tel" 
+                        value={numberPhone} 
+                        onChange={(e) => setNumberPhone(e.target.value)}
+                        required
+                      />
+                    </div>
+                    
+                    <div className="form-group">
+                      <label>Rôle</label>
+                      <div className="form-static-value">{role}</div>
+                    </div>
                   </div>
                 </div>
-              </div>
-              
-              <div className="panel-section">
-                <h4 className="section-title">Photo de profil</h4>
                 
-                <div className="profile-photo-section">
-                  <div className="profile-photo">
-                    <span className="initials">{fullName ? fullName.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase() : 'MD'}</span>
-                  </div>
+                <div className="panel-section">
+                  <h4 className="section-title">Photo de profil</h4>
                   
-                  <div className="profile-photo-actions">
-                    <button type="button" className="btn btn-outline">Changer la photo</button>
-                    <button type="button" className="btn btn-outline btn-danger">Supprimer</button>
+                  <div className="profile-photo-section">
+                    <div className="profile-photo">
+                      <span className="initials">{fullName ? fullName.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase() : 'MD'}</span>
+                    </div>
+                    
+                    <div className="profile-photo-actions">
+                      <button type="button" className="btn btn-outline">Changer la photo</button>
+                      <button type="button" className="btn btn-outline btn-danger">Supprimer</button>
+                    </div>
                   </div>
                 </div>
-              </div>
-              
-              <div className="panel-section">
-                <h4 className="section-title">Sécurité</h4>
                 
-                {!showPasswordFields ? (
+                <div className="panel-section">
+                  <h4 className="section-title">Sécurité</h4>
+                  
+                  {!showPasswordFields ? (
+                    <button 
+                      type="button" 
+                      className="btn btn-outline" 
+                      onClick={() => setShowPasswordFields(true)}
+                    >
+                      Modifier le mot de passe
+                    </button>
+                  ) : (
+                  <div className="form-grid">
+                    <div className="form-group">
+                        <label>Nouveau mot de passe</label>
+                        <input 
+                          type="password" 
+                          value={password} 
+                          onChange={(e) => setPassword(e.target.value)}
+                          placeholder="Minimum 6 caractères"
+                        />
+                    </div>
+                    
+                    <div className="form-group">
+                        <label>Confirmer le mot de passe</label>
+                        <input 
+                          type="password" 
+                          value={confirmPassword} 
+                          onChange={(e) => setConfirmPassword(e.target.value)}
+                          placeholder="Saisir à nouveau le mot de passe"
+                        />
+                </div>
+                
+                      {passwordError && (
+                        <div className="form-group" style={{ gridColumn: '1 / -1' }}>
+                          <div style={{ color: '#e74c3c', fontSize: '14px' }}>
+                            {passwordError}
+                </div>
+              </div>
+            )}
+            
+                      <div className="form-group" style={{ gridColumn: '1 / -1' }}>
+                        <button 
+                          type="button" 
+                          className="btn btn-outline"
+                          onClick={() => {
+                            setPassword('');
+                            setConfirmPassword('');
+                            setPasswordError('');
+                            setShowPasswordFields(false);
+                          }}
+                        >
+                          Annuler
+                        </button>
+                    </div>
+                  </div>
+                  )}
+                </div>
+                
+                <div className="form-actions">
                   <button 
                     type="button" 
                     className="btn btn-outline" 
-                    onClick={() => setShowPasswordFields(true)}
+                    onClick={handleCancel}
+                    disabled={saving}
                   >
-                    Modifier le mot de passe
+                    Annuler
                   </button>
-                ) : (
-                <div className="form-grid">
-                  <div className="form-group">
-                      <label>Nouveau mot de passe</label>
-                      <input 
-                        type="password" 
-                        value={password} 
-                        onChange={(e) => setPassword(e.target.value)}
-                        placeholder="Minimum 6 caractères"
-                      />
-                  </div>
-                  
-                  <div className="form-group">
-                      <label>Confirmer le mot de passe</label>
-                      <input 
-                        type="password" 
-                        value={confirmPassword} 
-                        onChange={(e) => setConfirmPassword(e.target.value)}
-                        placeholder="Saisir à nouveau le mot de passe"
-                      />
-              </div>
-              
-                    {passwordError && (
-                      <div className="form-group" style={{ gridColumn: '1 / -1' }}>
-                        <div style={{ color: '#e74c3c', fontSize: '14px' }}>
-                          {passwordError}
-              </div>
+                  <button 
+                    type="submit" 
+                    className="btn btn-primary"
+                    disabled={saving}
+                  >
+                    {saving ? 'Enregistrement...' : 'Enregistrer'}
+                  </button>
+                </div>
+              </form>
             </div>
-          )}
-          
-                    <div className="form-group" style={{ gridColumn: '1 / -1' }}>
-                      <button 
-                        type="button" 
-                        className="btn btn-outline"
-                        onClick={() => {
-                          setPassword('');
-                          setConfirmPassword('');
-                          setPasswordError('');
-                          setShowPasswordFields(false);
-                        }}
-                      >
-                        Annuler
-                      </button>
-                  </div>
-                  </div>
-                )}
-              </div>
-              
-              <div className="form-actions">
-                <button 
-                  type="button" 
-                  className="btn btn-outline" 
-                  onClick={handleCancel}
-                  disabled={saving}
-                >
-                  Annuler
-                </button>
-                <button 
-                  type="submit" 
-                  className="btn btn-primary"
-                  disabled={saving}
-                >
-                  {saving ? 'Enregistrement...' : 'Enregistrer'}
-                </button>
-              </div>
-            </form>
-              </div>
-            </div>
-          )}
+          </div>
+        )}
+      </div>
     </div>
   );
 }

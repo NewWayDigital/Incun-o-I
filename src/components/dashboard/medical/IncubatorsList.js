@@ -343,149 +343,148 @@ function IncubatorsList() {
   };
 
   return (
-    <div className="dashboard-content">
-      <h2 className="section-title">Gestion des incubateurs</h2>
-      
-      <div className="card">
-        <div className="card-header">
-          <div className="filter-controls">
-            <div className="filter-group">
-              <label htmlFor="status-filter">Statut:</label>
-              <select 
-                id="status-filter" 
-                value={filterStatus} 
-                onChange={(e) => setFilterStatus(e.target.value)}
-              >
-                <option value="all">Tous</option>
-                <option value="stable">Stable</option>
-                <option value="warning">Attention</option>
-                <option value="critical">Critique</option>
-              </select>
-            </div>
-            
-            <div className="search-container">
-              <input 
-                type="text" 
-                placeholder="Rechercher..." 
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
-              <button className="search-btn">
-                <i className="fas fa-search"></i>
+    <div className="main-content" id="main-content">
+      <div className="topbar">
+        <h1 className="page-title">Gestion des incubateurs</h1>
+      </div>
+      <div className="dashboard-content">
+        <div className="card">
+          <div className="card-header">
+            <div className="filter-controls">
+              <div className="filter-group">
+                <label htmlFor="status-filter">Statut:</label>
+                <select 
+                  id="status-filter" 
+                  value={filterStatus} 
+                  onChange={(e) => setFilterStatus(e.target.value)}
+                >
+                  <option value="all">Tous</option>
+                  <option value="stable">Stable</option>
+                  <option value="warning">Attention</option>
+                  <option value="critical">Critique</option>
+                </select>
+              </div>
+              <div className="search-container">
+                <input 
+                  type="text" 
+                  placeholder="Rechercher..." 
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                />
+                <button className="search-btn">
+                  <i className="fas fa-search"></i>
+                </button>
+              </div>
+              <button className="btn btn-outline" onClick={fetchIncubators}>
+                <i className="fas fa-sync-alt"></i> Actualiser
               </button>
             </div>
-            
-            <button className="btn btn-outline" onClick={fetchIncubators}>
-              <i className="fas fa-sync-alt"></i> Actualiser
-            </button>
           </div>
-        </div>
-        
-        <div className="card-body">
-          {loading ? (
-            <div className="loading-container">
-              <div className="spinner"></div>
-              <p>Chargement des incubateurs...</p>
-            </div>
-          ) : (
-          <div className="incubators-grid">
-            {filteredIncubators.length > 0 ? (
-              filteredIncubators.map((incubator, index) => (
-                <div key={index} className={`incubator-card status-${incubator.status}`}>
-                  <div className="card-header">
-                    <div className="incubator-id">
-                      <i className="fas fa-baby-carriage"></i>
-                      <h3>Incubateur {incubator.id}</h3>
-                    </div>
-                    <div className={`status-badge status-${incubator.status}`}>
-                      <i className={`fas ${
-                          incubator.status === 'stable' || incubator.status === 'normal' ? 'fa-check-circle' : 
-                        incubator.status === 'warning' ? 'fa-exclamation-triangle' : 
-                        'fa-exclamation-circle'
-                      }`}></i>
-                        {incubator.status === 'stable' || incubator.status === 'normal' ? 'Stable' : 
-                        incubator.status === 'warning' ? 'Attention' : 'Critique'}
-                    </div>
-                  </div>
-                  
-                  <div className="patient-info">
-                    <h4>{incubator.patient}</h4>
-                    <div className="patient-details">
-                        <span><i className="fas fa-baby"></i> {incubator.details?.age || 'N/A'}</span>
-                        <span><i className="fas fa-weight"></i> {incubator.details?.weight || incubator.poids || 'N/A'}</span>
-                    </div>
-                  </div>
-                  
-                  <div className="vital-signs">
-                      {incubator.vitalSigns && Array.isArray(incubator.vitalSigns) ? (
-                        incubator.vitalSigns.map((sign, i) => (
-                      <div key={i} className={`vital-sign ${sign.status}`}>
-                        <i className={`fas ${sign.icon}`}></i>
-                        <div className="vital-info">
-                          <span className="vital-value">{sign.value}</span>
-                          <span className="vital-label">{sign.name}</span>
-                        </div>
-                      </div>
-                        ))
-                      ) : (
-                        // Format de données différent (venant de l'API)
-                        <>
-                          <div className={`vital-sign ${incubator.status}`}>
-                            <i className="fas fa-thermometer-half"></i>
-                            <div className="vital-info">
-                              <span className="vital-value">{incubator.temperature}</span>
-                              <span className="vital-label">Température</span>
-                            </div>
-                          </div>
-                          <div className={`vital-sign ${incubator.status}`}>
-                            <i className="fas fa-heartbeat"></i>
-                            <div className="vital-info">
-                              <span className="vital-value">{incubator.vitalSigns.heartRate}</span>
-                              <span className="vital-label">Fréquence cardiaque</span>
-                            </div>
-                          </div>
-                          <div className={`vital-sign ${incubator.status}`}>
-                            <i className="fas fa-wind"></i>
-                            <div className="vital-info">
-                              <span className="vital-value">{incubator.vitalSigns.oxygen}</span>
-                              <span className="vital-label">SpO2</span>
-                            </div>
-                          </div>
-                        </>
-                      )}
-                  </div>
-                  
-                  <div className="card-actions">
-                    <button 
-                      className="action-btn view-btn" 
-                      onClick={() => handleMonitorIncubator(incubator)}
-                    >
-                      <i className="fas fa-eye"></i>
-                      Monitorer
-                    </button>
-                    <div>
-                      <button className="action-btn history-btn small">
-                        <i className="fas fa-history"></i>
-                      </button>
-                      <button className="action-btn alert-btn small">
-                        <i className="fas fa-bell"></i>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              ))
-            ) : (
-              <div className="no-results">
-                <i className="fas fa-search"></i>
-                <p>Aucun incubateur ne correspond à vos critères.</p>
+          <div className="card-body">
+            {loading ? (
+              <div className="loading-container">
+                <div className="spinner"></div>
+                <p>Chargement des incubateurs...</p>
               </div>
+            ) : (
+            <div className="incubators-grid">
+              {filteredIncubators.length > 0 ? (
+                filteredIncubators.map((incubator, index) => (
+                  <div key={index} className={`incubator-card status-${incubator.status}`}>
+                    <div className="card-header">
+                      <div className="incubator-id">
+                        <i className="fas fa-baby-carriage"></i>
+                        <h3>Incubateur {incubator.id}</h3>
+                      </div>
+                      <div className={`status-badge status-${incubator.status}`}>
+                        <i className={`fas ${
+                            incubator.status === 'stable' || incubator.status === 'normal' ? 'fa-check-circle' : 
+                          incubator.status === 'warning' ? 'fa-exclamation-triangle' : 
+                          'fa-exclamation-circle'
+                        }`}></i>
+                          {incubator.status === 'stable' || incubator.status === 'normal' ? 'Stable' : 
+                          incubator.status === 'warning' ? 'Attention' : 'Critique'}
+                      </div>
+                    </div>
+                    
+                    <div className="patient-info">
+                      <h4>{incubator.patient}</h4>
+                      <div className="patient-details">
+                          <span><i className="fas fa-baby"></i> {incubator.details?.age || 'N/A'}</span>
+                          <span><i className="fas fa-weight"></i> {incubator.details?.weight || incubator.poids || 'N/A'}</span>
+                      </div>
+                    </div>
+                    
+                    <div className="vital-signs">
+                        {incubator.vitalSigns && Array.isArray(incubator.vitalSigns) ? (
+                          incubator.vitalSigns.map((sign, i) => (
+                        <div key={i} className={`vital-sign ${sign.status}`}>
+                          <i className={`fas ${sign.icon}`}></i>
+                          <div className="vital-info">
+                            <span className="vital-value">{sign.value}</span>
+                            <span className="vital-label">{sign.name}</span>
+                          </div>
+                        </div>
+                          ))
+                        ) : (
+                          // Format de données différent (venant de l'API)
+                          <>
+                            <div className={`vital-sign ${incubator.status}`}>
+                              <i className="fas fa-thermometer-half"></i>
+                              <div className="vital-info">
+                                <span className="vital-value">{incubator.temperature}</span>
+                                <span className="vital-label">Température</span>
+                              </div>
+                            </div>
+                            <div className={`vital-sign ${incubator.status}`}>
+                              <i className="fas fa-heartbeat"></i>
+                              <div className="vital-info">
+                                <span className="vital-value">{incubator.vitalSigns.heartRate}</span>
+                                <span className="vital-label">Fréquence cardiaque</span>
+                              </div>
+                            </div>
+                            <div className={`vital-sign ${incubator.status}`}>
+                              <i className="fas fa-wind"></i>
+                              <div className="vital-info">
+                                <span className="vital-value">{incubator.vitalSigns.oxygen}</span>
+                                <span className="vital-label">SpO2</span>
+                              </div>
+                            </div>
+                          </>
+                        )}
+                    </div>
+                    
+                    <div className="card-actions">
+                      <button 
+                        className="action-btn view-btn" 
+                        onClick={() => handleMonitorIncubator(incubator)}
+                      >
+                        <i className="fas fa-eye"></i>
+                        Monitorer
+                      </button>
+                      <div>
+                        <button className="action-btn history-btn small">
+                          <i className="fas fa-history"></i>
+                        </button>
+                        <button className="action-btn alert-btn small">
+                          <i className="fas fa-bell"></i>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                ))
+              ) : (
+                <div className="no-results">
+                  <i className="fas fa-search"></i>
+                  <p>Aucun incubateur ne correspond à vos critères.</p>
+                </div>
+              )}
+            </div>
             )}
           </div>
-          )}
         </div>
+        {showIncubatorDetails && renderIncubatorDetails()}
       </div>
-      
-      {showIncubatorDetails && renderIncubatorDetails()}
     </div>
   );
 }
