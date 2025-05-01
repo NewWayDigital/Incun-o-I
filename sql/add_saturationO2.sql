@@ -1,0 +1,2 @@
+ALTER TABLE ConstanteVitales
+ADD COLUMN saturationO2 VARCHAR(255) NULL; 
