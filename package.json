@@ -8,7 +8,8 @@
     "prod": "node server.prod.js",
     "test-db": "node scripts/testLocalConnection.js",
     "migrate": "node scripts/migrateLocal.js",
-    "init-db": "node scripts/initDatabase.js"
+    "init-db": "node scripts/initDatabase.js",
+    "audit-fix": "npm audit fix --force"
   },
   "keywords": [],
   "author": "",

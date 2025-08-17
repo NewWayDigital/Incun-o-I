@@ -66,13 +66,27 @@ app.use('/api/videos', videoRouter)
 app.use('/api/video-stream', videoStreamRouter)
 
 // Route de santé pour Railway
-app.get('/health', (req, res) => {
-  res.status(200).json({ 
-    status: 'OK', 
-    timestamp: new Date().toISOString(),
-    environment: process.env.NODE_ENV || 'development',
-    database: 'connected'
-  })
+app.get('/health', async (req, res) => {
+  try {
+    // Vérifier la connexion à la base de données
+    await db.authenticate()
+    res.status(200).json({ 
+      status: 'OK', 
+      timestamp: new Date().toISOString(),
+      environment: process.env.NODE_ENV || 'development',
+      database: 'connected',
+      port: PORT
+    })
+  } catch (error) {
+    console.error('Healthcheck failed:', error.message)
+    res.status(503).json({ 
+      status: 'ERROR', 
+      timestamp: new Date().toISOString(),
+      environment: process.env.NODE_ENV || 'development',
+      database: 'disconnected',
+      error: error.message
+    })
+  }
 })
 
 // Route racine
@@ -126,6 +140,15 @@ server.on('upgrade', (request, socket, head) => {
 
 const startServer = async() => {
     try {
+        console.log('🔧 Configuration de démarrage:', {
+            PORT: PORT,
+            NODE_ENV: process.env.NODE_ENV,
+            MYSQLHOST: process.env.MYSQLHOST,
+            MYSQLPORT: process.env.MYSQLPORT,
+            MYSQL_DATABASE: process.env.MYSQL_DATABASE,
+            MYSQLUSER: process.env.MYSQLUSER
+        })
+        
         // Test de connexion à la base de données
         await db.authenticate()
         console.log('✅ Connexion à la base de données Railway réussie !')
@@ -138,11 +161,13 @@ const startServer = async() => {
             console.log(`🚀 Serveur IncuNeo démarré avec succès !`)
             console.log(`📊 Port: ${PORT}`)
             console.log(`🌐 Environnement: ${process.env.NODE_ENV || 'development'}`)
-            console.log(`🗄️ Base de données: ${process.env.DATABASE || 'railway'}`)
+            console.log(`🗄️ Base de données: ${process.env.MYSQL_DATABASE || process.env.DATABASE || 'railway'}`)
             console.log(`🔗 URL: http://localhost:${PORT}`)
+            console.log(`🏥 Healthcheck: http://localhost:${PORT}/health`)
         })
     } catch (error) {
         console.error('❌ Erreur au démarrage du serveur:', error.message)
+        console.error('🔧 Détails de l\'erreur:', error)
         process.exit(1)
     }
 }
