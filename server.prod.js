@@ -65,8 +65,19 @@ app.use('/api/photos', photoRouter)
 app.use('/api/videos', videoRouter)
 app.use('/api/video-stream', videoStreamRouter)
 
-// Route de santé pour Railway
-app.get('/health', async (req, res) => {
+// Route de santé simple pour Railway (vérifie seulement si l'app répond)
+app.get('/health', (req, res) => {
+  res.status(200).json({ 
+    status: 'OK', 
+    timestamp: new Date().toISOString(),
+    environment: process.env.NODE_ENV || 'development',
+    port: PORT,
+    message: 'Application is running'
+  })
+})
+
+// Route de santé détaillée pour vérifier la base de données
+app.get('/health/db', async (req, res) => {
   try {
     // Vérifier la connexion à la base de données
     await db.authenticate()
@@ -78,12 +89,13 @@ app.get('/health', async (req, res) => {
       port: PORT
     })
   } catch (error) {
-    console.error('Healthcheck failed:', error.message)
+    console.error('Database healthcheck failed:', error.message)
     res.status(503).json({ 
       status: 'ERROR', 
       timestamp: new Date().toISOString(),
       environment: process.env.NODE_ENV || 'development',
       database: 'disconnected',
+      message: 'Database connection failed',
       error: error.message
     })
   }
@@ -149,14 +161,7 @@ const startServer = async() => {
             MYSQLUSER: process.env.MYSQLUSER
         })
         
-        // Test de connexion à la base de données
-        await db.authenticate()
-        console.log('✅ Connexion à la base de données Railway réussie !')
-        
-        // Synchronisation des modèles (sans forcer la recréation)
-        await db.sync({ force: false, alter: false })
-        console.log('✅ Base de données synchronisée avec succès !')
-
+        // Démarrer le serveur d'abord
         server.listen(PORT, () => {
             console.log(`🚀 Serveur IncuNeo démarré avec succès !`)
             console.log(`📊 Port: ${PORT}`)
@@ -165,6 +170,20 @@ const startServer = async() => {
             console.log(`🔗 URL: http://localhost:${PORT}`)
             console.log(`🏥 Healthcheck: http://localhost:${PORT}/health`)
         })
+        
+        // Tester la connexion à la base de données en arrière-plan
+        try {
+            await db.authenticate()
+            console.log('✅ Connexion à la base de données Railway réussie !')
+            
+            // Synchronisation des modèles (sans forcer la recréation)
+            await db.sync({ force: false, alter: false })
+            console.log('✅ Base de données synchronisée avec succès !')
+        } catch (dbError) {
+            console.error('⚠️ Erreur de connexion à la base de données:', dbError.message)
+            console.error('🔧 L\'application continue sans base de données pour le moment')
+        }
+        
     } catch (error) {
         console.error('❌ Erreur au démarrage du serveur:', error.message)
         console.error('🔧 Détails de l\'erreur:', error)
