@@ -6,6 +6,7 @@
     "start": "node server.js",
     "dev": "nodemon server.js",
     "prod": "node server.prod.js",
+    "minimal": "node server.prod.js",
     "test-db": "node scripts/testLocalConnection.js",
     "migrate": "node scripts/migrateLocal.js",
     "init-db": "node scripts/initDatabase.js",

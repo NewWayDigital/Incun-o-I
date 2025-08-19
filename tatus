@@ -1,0 +1,3 @@
+[33m67e9b62[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mbackend[m[33m)[m fix: improve healthcheck and startup process - separate simple healthcheck from DB healthcheck - start server before testing DB connection - return 200 for basic healthcheck to allow deployment
+[33mbddee78[m[33m ([m[1;31morigin/backend[m[33m)[m merge: integrate remote changes with Railway deployment fixes
+[33m57f5088[m fix: configuration Railway deployment - update env vars for MySQL Railway - improve healthcheck with DB connection test - add diagnostic logs for deployment - create optimized Dockerfile - fix npm vulnerabilities
