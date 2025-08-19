@@ -42,32 +42,32 @@ const ParentDashboard = () => {
     const [photos, setPhotos] = useState([]);
     const [videos, setVideos] = useState([]);
     const [resources, setResources] = useState([
-        { 
-            id: 1, 
+        {
+            id: 1,
             title: 'Guide des soins néonatals pour les parents',
             icon: 'file-pdf',
             url: '#'
         },
-        { 
-            id: 2, 
+        {
+            id: 2,
             title: 'Vidéo : Comprendre les paramètres vitaux de votre bébé',
             icon: 'video',
             url: '#'
         },
-        { 
-            id: 3, 
+        {
+            id: 3,
             title: 'Les étapes du développement prématuré',
             icon: 'file-alt',
             url: '#'
         },
-        { 
-            id: 4, 
+        {
+            id: 4,
             title: 'Alimentation et nutrition pour les nouveau-nés prématurés',
             icon: 'file-medical',
             url: '#'
         },
-        { 
-            id: 5, 
+        {
+            id: 5,
             title: 'FAQ : Questions fréquemment posées par les parents',
             icon: 'question-circle',
             url: '#'
@@ -102,17 +102,17 @@ const ParentDashboard = () => {
             try {
                 const patientId = localStorage.getItem('patientId');
                 console.log('PatientId récupéré:', patientId);
-                
+
                 if (patientId) {
                     const photosData = await photoService.getByPatientId(patientId);
                     console.log('Photos récupérées:', photosData);
-                    
+
                     const videosData = await videoService.getByPatientId(patientId);
                     console.log('Vidéos récupérées:', videosData);
-                    
+
                     setPhotos(photosData.data);
                     console.log('État photos mis à jour avec:', photosData.data);
-                    
+
                     setVideos(videosData.data);
                     console.log('État vidéos mis à jour avec:', videosData.data);
                 } else {
@@ -132,16 +132,16 @@ const ParentDashboard = () => {
             try {
                 const patientId = localStorage.getItem('patientId');
                 console.log('Patient ID:', patientId);
-                
+
                 if (patientId) {
                     const response = await constanceVitaleService.getByPatient(patientId);
                     console.log('Réponse API constantes vitales:', response);
-                    
+
                     if (response && response.length > 0) {
                         // Prendre la dernière constante vitale
                         const latestVitalSigns = response[response.length - 1];
                         console.log('Dernières constantes vitales:', latestVitalSigns);
-                        
+
                         // Mettre à jour les paramètres vitaux
                         const newVitalSigns = {
                             temperature: {
@@ -170,8 +170,8 @@ const ParentDashboard = () => {
                             }
                         };
                         console.log('Nouveaux paramètres vitaux:', newVitalSigns);
-            setVitalSigns(newVitalSigns);
-            setLastUpdate('Maintenant');
+                        setVitalSigns(newVitalSigns);
+                        setLastUpdate('Maintenant');
                     } else {
                         console.log('Aucune constante vitale trouvée pour ce patient');
                     }
@@ -216,7 +216,7 @@ const ParentDashboard = () => {
     // Forcer l'application des styles responsifs
     useEffect(() => {
         document.body.classList.add('mobile-responsive');
-        
+
         // Nettoyage lors du démontage du composant
         return () => {
             document.body.classList.remove('mobile-responsive');
@@ -227,12 +227,12 @@ const ParentDashboard = () => {
     return (
         <div className="dashboard">
             <ParentSidebar activeSection={activeMenu} setActiveSection={setActiveMenu} />
-            
+
             {/* Bouton pour afficher/masquer le menu sur mobile */}
             <button className="mobile-menu-toggle" onClick={toggleMobileSidebar}>
                 <i className={`fas ${showSidebar ? 'fa-times' : 'fa-bars'}`}></i>
             </button>
-            
+
             {/* Si le sidebar est masqué, afficher l'info utilisateur flottante */}
             {!showSidebar && (
                 <div className="floating-user">
@@ -240,7 +240,7 @@ const ParentDashboard = () => {
                     <span className="user-name">{localStorage.getItem('userName')}</span>
                 </div>
             )}
-            
+
             {/* Main Content */}
             <div className="main-content">
                 <div className="dashboard-header">
@@ -252,7 +252,7 @@ const ParentDashboard = () => {
                         </button>
                     </div>
                 </div>
-                
+
                 {/* First Row */}
                 <div className="dashboard-row">
                     {/* Video Feed */}
@@ -267,14 +267,17 @@ const ParentDashboard = () => {
                         <div className="card-body">
                             <div className="video-container">
                                 {videos.length > 0 ? (
-                                    <video 
-                                        src={videos[0].url} 
-                                        controls 
+                                    <img
+                                        src={videos[0].url}
+                                        alt="Flux vidéo de l'incubateur"
                                         className="gallery-img"
-                                        poster={videos[0].thumbnail}
                                     />
                                 ) : (
-                                <img src="/api/placeholder/800/360" alt="Flux vidéo de l'incubateur" className="gallery-img" />
+                                    <img
+                                        src="/api/placeholder/800/360"
+                                        alt="Flux vidéo de l'incubateur"
+                                        className="gallery-img"
+                                    />
                                 )}
                             </div>
                             <div className="video-controls">
@@ -290,7 +293,7 @@ const ParentDashboard = () => {
                             </div>
                         </div>
                     </div>
-                    
+
                     {/* Vital Signs */}
                     <div id="vitals" className="card card-span-4">
                         <div className="card-header">
@@ -364,7 +367,7 @@ const ParentDashboard = () => {
                         </div>
                     </div>
                 </div>
-                
+
                 {/* Second Row */}
                 <div className="dashboard-row">
                     {/* Daily Updates */}
@@ -395,7 +398,7 @@ const ParentDashboard = () => {
                             </a>
                         </div>
                     </div>
-                    
+
                     {/* Message Center */}
                     <div id="messages" className="card card-span-6">
                         <div className="card-header">
@@ -408,8 +411,8 @@ const ParentDashboard = () => {
                             <p>Envoyez un message à l'équipe médicale :</p>
                             <form className="message-form" onSubmit={handleMessageSubmit}>
                                 <div className="form-group">
-                                    <textarea 
-                                        className="form-input" 
+                                    <textarea
+                                        className="form-input"
                                         placeholder="Tapez votre message ici..."
                                         value={message}
                                         onChange={(e) => setMessage(e.target.value)}
@@ -423,7 +426,7 @@ const ParentDashboard = () => {
                         </div>
                     </div>
                 </div>
-                
+
                 {/* Third Row */}
                 <div className="dashboard-row">
                     {/* Photos Gallery */}
@@ -444,7 +447,7 @@ const ParentDashboard = () => {
                                                 <span className="photo-date">{new Date(photo.date).toLocaleDateString()}</span>
                                                 {photo.description && <p className="photo-description">{photo.description}</p>}
                                             </div>
-                                    </div>
+                                        </div>
                                     ))
                                 ) : (
                                     <p className="no-photos">Aucune photo disponible</p>
@@ -452,7 +455,7 @@ const ParentDashboard = () => {
                             </div>
                         </div>
                     </div>
-                    
+
                     {/* Videos Gallery */}
                     <div id="videos" className="card card-span-6">
                         <div className="card-header">
@@ -466,9 +469,9 @@ const ParentDashboard = () => {
                                 {videos.length > 0 ? (
                                     videos.map((video) => (
                                         <div key={video.id} className="video-item">
-                                            <video 
-                                                src={video.url} 
-                                                controls 
+                                            <video
+                                                src={video.url}
+                                                controls
                                                 poster={video.thumbnail}
                                             />
                                             <div className="video-info">

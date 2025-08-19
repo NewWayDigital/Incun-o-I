@@ -8,3 +8,9 @@ ReactDOM.render(
   </React.StrictMode>,
   document.getElementById('root')
 );
+
+window.addEventListener('error', (e) => {
+  if (e.message && e.message.includes('ResizeObserver loop completed')) {
+    e.stopImmediatePropagation();
+  }
+});

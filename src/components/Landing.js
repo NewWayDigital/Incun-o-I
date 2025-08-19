@@ -2,8 +2,15 @@ import "../styles/Landing.css";
 import imgIncu from "../assets/téléchargement.jpeg"
 // src/pages/LandingPage.js
 import { Link } from 'react-router-dom';
+import { useState } from 'react';
 
 function Landing() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
   return (
     <div>
       <header className="header">
@@ -12,11 +19,14 @@ function Landing() {
             <i className="fas fa-baby"></i>
             <span className="logo-text">IncuNeo-I</span>
           </div>
-          <ul className="nav-links">
-            <li><a href="#features">Fonctionnalités</a></li>
-            <li><a href="#about">À propos</a></li>
-            <li><a href="#contact">Contact</a></li>
-            <li><Link to="/login" className="btn-login">Connexion</Link></li>
+          <div className="menu-toggle" onClick={toggleMenu}>
+            <i className={`fas ${isMenuOpen ? 'fa-times' : 'fa-bars'}`}></i>
+          </div>
+          <ul className={`nav-links ${isMenuOpen ? 'active' : ''}`}>
+            <li><a href="#features" onClick={() => setIsMenuOpen(false)}>Fonctionnalités</a></li>
+            <li><a href="#about" onClick={() => setIsMenuOpen(false)}>À propos</a></li>
+            <li><a href="#contact" onClick={() => setIsMenuOpen(false)}>Contact</a></li>
+            <li><Link to="/login" className="btn-login" onClick={() => setIsMenuOpen(false)}>Connexion</Link></li>
           </ul>
         </nav>
       </header>

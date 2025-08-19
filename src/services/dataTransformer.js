@@ -3,18 +3,15 @@
  * Convertit les données du backend au format attendu par les composants frontend
  */
 
+import { calculerAge, formaterDate } from '../utils/dateUtils';
+
 // Fonction pour transformer les données d'incubateur
 export const transformIncubatorData = (backendData) => {
   if (!backendData || !Array.isArray(backendData)) return [];
   
   return backendData.map(incubateur => {
     // Déterminer le statut pour l'interface utilisateur en fonction de l'incubateur
-    let status = 'stable';
-    if (incubateur.status === 'warning') status = 'warning';
-    if (incubateur.status === 'critical') status = 'critical';
-    if (incubateur.status === 'alert') status = 'critical';
-    if (incubateur.status === 'normal') status = 'stable';
-    if (incubateur.status === 'stable') status = 'stable';
+    let status = incubateur.status || 'stable';
 
     // Vérifier si les données du patient sont incluses et si son statut doit remplacer celui de l'incubateur
     if (incubateur.patientData && incubateur.patientData.status) {
@@ -24,12 +21,26 @@ export const transformIncubatorData = (backendData) => {
       if (patientStatus === 'alert') status = 'critical';
     }
 
+    // Préserver les données patient
+    const patientData = incubateur.patientData ? {
+      ...incubateur.patientData,
+      incubateur: incubateur.id.toString()
+    } : null;
+
+    console.log('Transformation des données incubateur:', {
+      incubateurId: incubateur.id,
+      patientName: incubateur.patient,
+      hasPatientData: !!patientData,
+      patientData
+    });
+
     return {
       id: incubateur.id.toString(),
       model: incubateur.model || 'Incuneo-I Standard',
       location: incubateur.location || 'Non spécifié',
       status: status,
       patient: incubateur.patient || 'Non assigné',
+      patientData: patientData, // Ajouter les données patient complètes
       saturationOxy: incubateur.saturationOxy || '95%',
       humidite: incubateur.humidite || '60%',
       temperature: incubateur.temperature || '37.0°C',
@@ -40,22 +51,16 @@ export const transformIncubatorData = (backendData) => {
         oxygen: incubateur.saturationOxy || '95%'
       },
       details: {
-        // Ces données peuvent être complétées avec les informations du patient associé
-        age: '8 jours', // À calculer ultérieurement
-        weight: incubateur.poids || '2.5 kg',
-        birthDate: '14/04/2024', // À récupérer du patient associé
-        condition: 'Prématurité légère',
+        age: patientData?.dateNaissance ? calculerAge(patientData.dateNaissance) : 'N/A',
+        weight: patientData?.poids || 'N/A',
+        birthDate: patientData?.dateNaissance ? formaterDate(patientData.dateNaissance) : 'N/A',
+        condition: patientData?.status || 'Stable',
         incubatorSettings: {
           temperature: incubateur.temperature || '37.0°C',
           humidity: incubateur.humidite || '60%',
           oxygenLevel: incubateur.saturationOxy?.replace('%', '') || '21%'
         },
-        trends: [
-          // Données simulées pour l'historique
-          { time: '08:00', temp: '37.0', hr: '130', oxy: '97' },
-          { time: '10:00', temp: '37.1', hr: '132', oxy: '98' },
-          { time: '12:00', temp: '37.2', hr: '133', oxy: '98' }
-        ]
+        trends: incubateur.trends || []
       }
     };
   });

@@ -6,7 +6,7 @@ const StatsCards = () => {
   const statsData = [
     {
       icon: 'fas fa-users',
-      value: '24',
+      value: '4',
       label: 'Utilisateurs actifs',
       color: 'rgba(52, 152, 219, 0.1)',
       textColor: 'var(--primary-color)',
@@ -14,7 +14,7 @@ const StatsCards = () => {
     },
     {
       icon: 'fas fa-baby-carriage',
-      value: '12',
+      value: '2',
       label: 'Incubateurs en service',
       color: 'rgba(46, 204, 113, 0.1)',
       textColor: 'var(--secondary-color)',

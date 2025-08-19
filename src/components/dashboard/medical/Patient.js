@@ -307,8 +307,9 @@ function Patient() {
         </div>
 
         <div className="patient-info-grid">
+          {/* Informations personnelles */}
           <div className="patient-info-section">
-            <h4>Informations personnelles</h4>
+            <h4><i className="fas fa-user-circle"></i> Informations personnelles</h4>
             <div className="info-grid">
               <div className="info-item">
                 <label>ID Patient:</label>
@@ -340,61 +341,56 @@ function Patient() {
               </div>
               <div className="info-item">
                 <label>Groupe sanguin:</label>
-                <span>{selectedPatient.groupeSanguin}</span>
+                <span>{selectedPatient.groupeSanguin || "Non spécifié"}</span>
               </div>
               <div className="info-item">
                 <label>Allergies:</label>
-                <span>{selectedPatient.allergies}</span>
+                <span>{selectedPatient.allergies || "Aucune"}</span>
               </div>
             </div>
           </div>
 
+          {/* Informations de contact */}
           <div className="patient-info-section">
-            <h4>Informations de contact</h4>
+            <h4><i className="fas fa-address-book"></i> Informations de contact</h4>
             <div className="info-grid">
               <div className="info-item">
                 <label>Parent(s):</label>
-                <span>{selectedPatient.parent}</span>
+                <span>{selectedPatient.parent || "Non spécifié"}</span>
               </div>
               <div className="info-item">
                 <label>Téléphone:</label>
-                <span>{selectedPatient.telephone}</span>
+                <span>{selectedPatient.telephone || "Non spécifié"}</span>
               </div>
               <div className="info-item">
                 <label>Email:</label>
-                <span>{selectedPatient.email}</span>
+                <span>{selectedPatient.email || "Non spécifié"}</span>
               </div>
               <div className="info-item">
                 <label>Adresse:</label>
-                <span>{selectedPatient.adresse}</span>
+                <span>{selectedPatient.adresse || "Non spécifiée"}</span>
               </div>
             </div>
           </div>
 
+          {/* Informations médicales */}
           <div className="patient-info-section full-width">
-            <h4>Informations médicales</h4>
+            <h4><i className="fas fa-notes-medical"></i> Informations médicales</h4>
             <div className="info-grid">
-              <div className="info-item">
-                <label>Incubateur:</label>
-                <span>
-                  <span className="incubator-badge">
-                    <i className="fas fa-baby-carriage"></i> {selectedPatient.incubateur}
-                  </span>
-                </span>
+              <div className="info-item full-width">
+                <label>Antécédents médicaux:</label>
+                <span>{selectedPatient.antecedents || "Aucun antécédent noté"}</span>
               </div>
               <div className="info-item full-width">
                 <label>Notes médicales:</label>
-                <p>{selectedPatient.noteMedicale}</p>
-              </div>
-              <div className="info-item full-width">
-                <label>Antécédents:</label>
-                <p>{selectedPatient.antecedents}</p>
+                <span>{selectedPatient.noteMedicale || "Aucune note médicale"}</span>
               </div>
             </div>
           </div>
 
+          {/* Traitements en cours */}
           <div className="patient-info-section full-width">
-            <h4>Traitement en cours</h4>
+            <h4><i className="fas fa-pills"></i> Traitements en cours</h4>
             {selectedPatient.Traitements && selectedPatient.Traitements.length > 0 ? (
               <table className="detail-table">
                 <thead>
@@ -402,6 +398,8 @@ function Patient() {
                     <th>Médicament</th>
                     <th>Dosage</th>
                     <th>Fréquence</th>
+                    <th>Date de début</th>
+                    <th>Statut</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -410,6 +408,12 @@ function Patient() {
                       <td>{traitement.medicament}</td>
                       <td>{traitement.dosage}</td>
                       <td>{traitement.frequence}</td>
+                      <td>{formaterDate(traitement.createdAt)}</td>
+                      <td>
+                        <span className={`status-badge status-${traitement.statut || 'active'}`}>
+                          {traitement.statut || 'En cours'}
+                        </span>
+                      </td>
                     </tr>
                   ))}
                 </tbody>
@@ -419,35 +423,38 @@ function Patient() {
             )}
           </div>
 
+          {/* Historique des consultations */}
           <div className="patient-info-section full-width">
-            <h4>Constantes vitales récentes</h4>
-            {selectedPatient.ConstanteVitales && selectedPatient.ConstanteVitales.length > 0 ? (
+            <h4><i className="fas fa-history"></i> Historique des consultations</h4>
+            {selectedPatient.Consultations && selectedPatient.Consultations.length > 0 ? (
               <table className="detail-table">
                 <thead>
                   <tr>
-                  <th>Date</th>
-                   <th>Température</th>
-                   <th>Pouls</th>
-                   <th>Respiration</th>
-                   <th>Humidité corporelle</th>
-                    <th>Poids</th>
+                    <th>Date</th>
+                    <th>Médecin</th>
+                    <th>Motif</th>
+                    <th>Diagnostic</th>
+                    <th>Actions</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {selectedPatient.ConstanteVitales.map((constante, index) => (
+                  {selectedPatient.Consultations.map((consultation, index) => (
                     <tr key={index}>
-                      <td>{constante.date}</td>
-                       <td>{constante.temperature}</td>
-                      <td>   {constante.pouls}</td>
-                      <td>   {constante.respiration}</td>
-                      <td>   {constante.humiditeCorp}</td>
-                      <td>   {constante.poids}</td>
+                      <td>{formaterDate(consultation.date)}</td>
+                      <td>{consultation.medecin}</td>
+                      <td>{consultation.motif}</td>
+                      <td>{consultation.diagnostic}</td>
+                      <td>
+                        <button className="btn btn-sm btn-outline">
+                          <i className="fas fa-eye"></i>
+                        </button>
+                      </td>
                     </tr>
                   ))}
                 </tbody>
               </table>
             ) : (
-              <p className="no-data-message">Aucune donnée de constantes vitales disponible</p>
+              <p className="no-data-message">Aucune consultation enregistrée</p>
             )}
           </div>
         </div>

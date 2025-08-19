@@ -1,8 +1,16 @@
 import axios from 'axios';
+import { getBaseURL } from '../config/api';
 
 // Configuration de l'instance axios pour les appels API
+const baseURL = getBaseURL();
+console.log('🔧 Configuration API:', {
+  environment: process.env.NODE_ENV,
+  baseURL: baseURL,
+  apiUrl: process.env.REACT_APP_API_URL
+});
+
 const api = axios.create({
-  baseURL: 'http://localhost:8000/api',
+  baseURL: baseURL,
   headers: {
     'Content-Type': 'application/json'
   }
@@ -457,4 +465,5 @@ export const videoService = {
   }
 };
 
+export { api };
 export default api; 
