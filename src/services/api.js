@@ -2,16 +2,12 @@ import axios from 'axios';
 import { getBaseURL } from '../config/api';
 
 // Configuration de l'instance axios pour les appels API
-const baseURL = getBaseURL();
-
-// Fallback vers l'URL Railway si on est en production
-const finalBaseURL = process.env.REACT_APP_API_URL || 
-                    (window.location.hostname !== 'localhost' ? 'https://incun-o-i-production.up.railway.app/api' : baseURL);
+// Forcer l'utilisation de l'URL Railway pour tous les environnements
+const finalBaseURL = 'https://incun-o-i-production.up.railway.app/api';
 
 console.log('🔧 Configuration API:', {
   environment: process.env.NODE_ENV,
   hostname: window.location.hostname,
-  baseURL: baseURL,
   finalBaseURL: finalBaseURL,
   apiUrl: process.env.REACT_APP_API_URL
 });
