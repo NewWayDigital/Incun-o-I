@@ -4,8 +4,8 @@ const API_CONFIG = {
     baseURL: 'http://localhost:3000/api',
   },
   production: {
-    // Remplacez cette URL par l'URL réelle de votre backend Railway
-    baseURL: process.env.REACT_APP_API_URL || 'https://incuneo-backend-production.up.railway.app/api',
+    // URL de votre backend Railway
+    baseURL: process.env.REACT_APP_API_URL || 'https://incun-o-i-production.up.railway.app/api',
   },
   test: {
     baseURL: 'http://localhost:3000/api',
