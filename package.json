@@ -10,6 +10,7 @@
     "test-db": "node scripts/testLocalConnection.js",
     "migrate": "node scripts/migrateLocal.js",
     "init-db": "node scripts/initDatabase.js",
+    "setup-db": "node scripts/initDatabase.js && npm run prod",
     "audit-fix": "npm audit fix --force"
   },
   "keywords": [],

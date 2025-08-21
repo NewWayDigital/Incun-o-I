@@ -1,5 +1,8 @@
 // Script d'initialisation complet de la base de données
-require('dotenv').config({ path: './config/local.env' });
+// Charger les variables d'environnement selon l'environnement
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config({ path: './config/local.env' });
+}
 
 const db = require('../config/db');
 const User = require('../models/User.model');
