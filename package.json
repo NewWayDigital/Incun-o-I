@@ -11,6 +11,7 @@
     "migrate": "node scripts/migrateLocal.js",
     "init-db": "node scripts/initDatabase.js",
     "setup-db": "node scripts/initDatabase.js && npm run prod",
+    "setup-railway": "node scripts/setupRailway.js",
     "audit-fix": "npm audit fix --force"
   },
   "keywords": [],

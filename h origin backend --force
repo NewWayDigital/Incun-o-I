@@ -1,0 +1,3 @@
+[33m3d8ca42[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mbackend[m[33m)[m fix: update Railway startCommand to use setup-db script for database initialization
+[33mc525e10[m feat: add database setup script for Railway deployment - add setup-db script to initialize database and start server - update initDatabase.js to work in production environment
+[33mf942cd1[m[33m ([m[1;31morigin/backend[m[33m)[m fix: correct Railway startCommand and add missing minimal script - change startCommand from 'npm run minimal' to 'npm run prod' - add minimal script to package.json as alias for prod
