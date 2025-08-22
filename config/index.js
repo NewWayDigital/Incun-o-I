@@ -12,4 +12,15 @@ const ENV={
     DIALECT:  process.env.DIALECT || 'mysql',
     TOKEN:  process.env.TOKEN
 }
+
+// Debug des variables d'environnement
+console.log('🔧 Variables d\'environnement détectées:', {
+    MYSQLHOST: process.env.MYSQLHOST,
+    MYSQLUSER: process.env.MYSQLUSER,
+    MYSQLPORT: process.env.MYSQLPORT,
+    MYSQLPASSWORD: process.env.MYSQLPASSWORD ? '***' : 'undefined',
+    MYSQL_DATABASE: process.env.MYSQL_DATABASE,
+    MYSQLDATABASE: process.env.MYSQLDATABASE,
+    DATABASE: process.env.DATABASE
+});
 module.exports = ENV;
