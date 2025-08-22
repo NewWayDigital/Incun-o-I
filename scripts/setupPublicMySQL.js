@@ -5,12 +5,12 @@ console.log('🚀 Démarrage de l\'initialisation avec URL publique MySQL...');
 const mysql = require('mysql2/promise');
 const bcrypt = require('bcrypt');
 
-// Remplacez ces valeurs par les vraies valeurs de votre MySQL Railway
+// Configuration avec les vraies valeurs de votre MySQL Railway
 const DB_CONFIG = {
     host: 'incun-o-i-production.up.railway.app', // URL publique de votre MySQL
     port: 3306,
     user: 'root',
-    password: 'SlxhJSLyhVvPsorxRUueaIcKpWCJHbUu',
+    password: 'HAOVAAZUkIqXAqvvBHFkTXdItkpFzpRJ', // Votre vrai mot de passe MySQL
     database: 'railway'
 };
 
